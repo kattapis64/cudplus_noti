@@ -29,12 +29,12 @@ def split_list(lst, delimiter):
     result.append(current)  # Add the last segment
     return result
 options = Options()
-options.add_argument("--headless")
+#options.add_argument("--headless")
 username = os.getenv('US')
 pwd = os.getenv('pwd')
 url = "https://sso.satitm.chula.ac.th/adfs/oauth2/authorize?response_type=code&client_id=9d7865f9-7fe8-490f-bb72-25defaf77212&redirect_uri=https%3A%2F%2Fwww.mycourseville.com%2Fapi%2Fsatitm%2Fcallback"
 
-driver = webdriver.Chrome(service=Service("/usr/bin/chromedriver"))
+driver = webdriver.Chrome(service=Service("/usr/bin/chromedriver"),options=options)
 driver.get(url)
 
 
