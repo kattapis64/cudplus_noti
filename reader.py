@@ -37,17 +37,18 @@ print(set(a[0]).difference(set(a[1])))
 res=[str(set(a[0]).difference(set(a[1])))]
 pwd = "pttq izsc qslj unns"
 sender="why1spr.socute@gmail.com"
-for i in res:
-    reciever = "kittiphasa29@gmail.com"
-    subject = i
-    body= ""
-    em = EmailMessage()
-    em['From']= sender
-    em['To'] = reciever
-    em['Subject']= subject
-    em.set_content(body)
-    con = ssl.create_default_context()
-    with smtplib.SMTP_SSL('smtp.gmail.com',465,context=con) as smtp:
-        smtp.login(sender,pwd)
-        smtp.sendmail(sender,reciever,em.as_string())
+if res!=[] or res!=[""] or res!="set()":
+    for i in res:
+        reciever = "kittiphasa29@gmail.com"
+        subjecst = i
+        body= ""
+        em = EmailMessage()
+        em['From']= sender
+        em['To'] = reciever
+        em['Subject']= subject
+        em.set_content(body)
+        con = ssl.create_default_context()
+        with smtplib.SMTP_SSL('smtp.gmail.com',465,context=con) as smtp:
+            smtp.login(sender,pwd)
+            smtp.sendmail(sender,reciever,em.as_string())
 
