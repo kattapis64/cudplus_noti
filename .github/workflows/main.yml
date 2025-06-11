@@ -42,3 +42,8 @@ jobs:
 
       - name: Run tests
         run: python combined.py
+      - name: commit
+        run: |
+          git add .
+          git commit -m update_log
+          git push -u origin man

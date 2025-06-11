@@ -116,7 +116,7 @@ sender="why1spr.socute@gmail.com"
 if res!=[] or res!=[""] or res!="set()":
     for i in res:
         reciever = "kittiphasa29@gmail.com"
-        subjecst = i
+        subject = i
         body= ""
         em = EmailMessage()
         em['From']= sender
