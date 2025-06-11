@@ -42,7 +42,7 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-gpu")
 
 driver = webdriver.Chrome(
-    service=Service(ChromeDriverManager().install()),
+    service=Service("/usr/bin/chromedriver"),
     options=chrome_options
 )
 driver.get(url)
