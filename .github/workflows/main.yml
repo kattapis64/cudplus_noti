@@ -44,7 +44,7 @@ jobs:
         run: python combined.py
       - name: commit
         run: |
-          git config --global user.name 'kattapis64'
-          git config --global user.email 'kattapis64@users.noreply.github.com'
+          git config --global user.email "kittiphasa29@gmail.com"
+          git config --global user.name "kattapis64"
           git commit -am "Log Commit"
           git push
