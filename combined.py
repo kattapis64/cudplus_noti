@@ -123,8 +123,8 @@ print(set(a[0]).difference(set(a[1])))
 
 
 res=[str(set(a[0]).difference(set(a[1])))]
-pwd = "pttq izsc qslj unns"
-sender="why1spr.socute@gmail.com"
+pwd = os.getenv("ps")
+sender=os.getenv("sender")
 if res!=[] or res!=[""] or res!="set()":
     for i in res:
         reciever = "kittiphasa29@gmail.com"
