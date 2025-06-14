@@ -29,26 +29,16 @@ with open('log.txt') as f:
     g=g[-2:]
     for r in g:
         a.append(r.split(",")[0:-1])
-
-print(a)
-print(set(a[0]).difference(set(a[1])))
-
-
-res=[str(set(a[0]).difference(set(a[1])))]
-pwd = "pttq izsc qslj unns"
-sender="why1spr.socute@gmail.com"
-if res!=[] or res!=[""] or res!="set()":
-    for i in res:
-        reciever = "kittiphasa29@gmail.com"
-        subjecst = i
-        body= ""
-        em = EmailMessage()
-        em['From']= sender
-        em['To'] = reciever
-        em['Subject']= subject
-        em.set_content(body)
-        con = ssl.create_default_context()
-        with smtplib.SMTP_SSL('smtp.gmail.com',465,context=con) as smtp:
-            smtp.login(sender,pwd)
-            smtp.sendmail(sender,reciever,em.as_string())
+for k in range(len(a[0])):
+    a[0][k]=a[0][k][0:-13]
+for s in range(len(a[1])):
+    a[1][s]=a[1][s][0:-13]
+print(a[1])
+for i in a[0]:
+    for j in a[1]:
+        if i==j:
+            first = a[0].index(i)
+            later = a[1].index(i)
+print(first,later)
+print(a[1][0:later])
 

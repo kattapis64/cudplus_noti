@@ -62,7 +62,7 @@ driver.get("https://cudplus.onsmart.school/utility/notifications")
 
 sleep(2)
 e = driver.find_elements(By.TAG_NAME,"ul")
-
+print(e)
 print(e[2].text.split(" "))
 notiraw=e[2].text.split(" ")
 notiraww=[]
@@ -79,7 +79,7 @@ print(notiraww)
 noti=[]
 for j in notiraww:
     noti.append(j)
-    if "แล้ว" in j:
+    if "แล้ว" in j and "ใกล้จะถึงกำหนดส่งแล้ว" not in j and "ได้รับการตรวจแล้ว" not in j:
         noti.append("/")
 print(noti)
 notlist=split_list(noti,"/")
@@ -118,25 +118,34 @@ with open('log.txt') as f:
     for r in g:
         a.append(r.split(",")[0:-1])
 
-print(a)
-print(set(a[0]).difference(set(a[1])))
+for k in range(len(a[0])):
+    a[0][k]=a[0][k][0:-13]
+for s in range(len(a[1])):
+    a[1][s]=a[1][s][0:-13]
+print(a[1])
+for i in a[0]:
+    for j in a[1]:
+        if i==j:
+            first = a[0].index(i)
+            later = a[1].index(i)
+print(first,later)
+print(a[1][0:later])
+eme=a[1][0:later]
 
+ps = os.getenv('pc')
+sender=os.getenv('sender')
 
-res=[str(set(a[0]).difference(set(a[1])))]
-pwd = os.getenv("ps")
-sender=os.getenv("sender")
-if res!=[] or res!=[""] or res!="set()":
-    for i in res:
-        reciever = "kittiphasa29@gmail.com"
-        subject = i
-        body= ""
-        em = EmailMessage()
-        em['From']= sender
-        em['To'] = reciever
-        em['Subject']= subject
-        em.set_content(body)
-        con = ssl.create_default_context()
-        with smtplib.SMTP_SSL('smtp.gmail.com',465,context=con) as smtp:
-            smtp.login(sender,pwd)
-            smtp.sendmail(sender,reciever,em.as_string())
+for i in eme:
+    reciever = "kittiphasa29@gmail.com"
+    subject = i
+    body= ""
+    em = EmailMessage()
+    em['From']= sender
+    em['To'] = reciever
+    em['Subject']= subject
+    em.set_content(body)
+    con = ssl.create_default_context()
+    with smtplib.SMTP_SSL('smtp.gmail.com',465,context=con) as smtp:
+        smtp.login(sender,ps)
+        smtp.sendmail(sender,reciever,em.as_string())
 
