@@ -34,8 +34,7 @@ def split_list(lst, delimiter):
 
 username = os.getenv('US')
 pwd = os.getenv('pwd')
-url = "https://sso.satitm.chula.ac.th/adfs/oauth2/authorize?response_type=code&client_id=9d7865f9-7fe8-490f-bb72-25defaf77212&redirect_uri=https%3A%2F%2Fwww.mycourseville.com%2Fapi%2Fsatitm%2Fcallback"
-
+url="https://www.mycourseville.com/api/login"
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
@@ -50,20 +49,26 @@ driver.get(url)
 
 
 
-driver.find_element(By.ID,"userNameInput").send_keys(username)
-driver.find_element(By.ID,"passwordInput").send_keys(pwd)
-driver.find_element(By.ID,"submitButton").click()
-
+driver.find_element(By.ID,"username").send_keys(username)
+driver.find_element(By.ID,"password").send_keys(pwd)
+driver.find_element(By.ID,"cv-login-cvecologinbutton").click()
 print("login succesfully")
 
 driver.get("https://www.mycourseville.com/api/oauth/authorize?response_type=code&client_id=smartschool_cudplus&redirect_uri=https://cudplus.onsmart.school/callback&scope=public,launching,email")
 
 driver.get("https://cudplus.onsmart.school/utility/notifications")
-
 sleep(2)
+links = driver.find_elements(By.TAG_NAME, "a")  # gets all <a> elements
+hrefs=[]
+for link in links:
+    href = link.get_attribute("href")
+
+    hrefs.append(href)
+print(hrefs[19:])
+
+
 e = driver.find_elements(By.TAG_NAME,"ul")
-print(e)
-print(e[2].text.split(" "))
+
 notiraw=e[2].text.split(" ")
 notiraww=[]
 for i in notiraw:
@@ -119,33 +124,67 @@ with open('log.txt') as f:
         a.append(r.split(",")[0:-1])
 
 for k in range(len(a[0])):
-    a[0][k]=a[0][k][0:-13]
+    if "วันที่แล้ว" in a[0][k]:
+        a[0][k]=a[0][k][0:-13]
+    elif "ชั่วโมงที่แล้ว" in a[0][k]:
+        a[0][k]=a[0][k][0:-17]
+    elif "เดือนที่แล้ว" in a[0][k]:
+        a[0][k]=a[0][k][0:-15]
+    elif "สัปดาห์ที่แล้ว" in a[0][k]:
+        a[0][k]=a[0][k][0:-17]
+
+    
 for s in range(len(a[1])):
-    a[1][s]=a[1][s][0:-13]
+    if "วันที่แล้ว" in a[1][s]:
+        a[1][s]=a[1][s][0:-13]
+    elif "ชั่วโมงที่แล้ว" in a[1][s]:
+        a[1][s]=a[1][s][0:-17]
+    elif "เดือนที่แล้ว" in a[1][s]:
+        a[1][s]=a[1][s][0:-15]
+    elif "สัปดาห์ที่แล้ว" in a[1][s]:
+        a[1][s]=a[1][s][0:-17]
+
+    
 print(a[1])
+dummy=0
 for i in a[0]:
     for j in a[1]:
+        print(i)
+        print(j)
+        print("")
+
         if i==j:
+            print("yay")
             first = a[0].index(i)
             later = a[1].index(i)
+            dummy=1
+            break
+    if dummy==1:
+        break
 print(first,later)
 print(a[1][0:later])
-eme=a[1][0:later]
-
+if first ==0 and later ==0:
+    eme=[]
+else:
+    eme=a[1][0:later-1]
+print(eme)
 ps = os.getenv('pc')
 sender=os.getenv('sender')
-
-for i in eme:
-    reciever = "kittiphasa29@gmail.com"
-    subject = i
-    body= ""
-    em = EmailMessage()
-    em['From']= sender
-    em['To'] = reciever
-    em['Subject']= subject
-    em.set_content(body)
-    con = ssl.create_default_context()
-    with smtplib.SMTP_SSL('smtp.gmail.com',465,context=con) as smtp:
-        smtp.login(sender,ps)
-        smtp.sendmail(sender,reciever,em.as_string())
+if eme!=[]:
+    print("notifications founded")
+    for i in eme:
+        reciever = "kittiphasa29@gmail.com"
+        subject = i
+        body= hrefs[19:][eme.index(i)]
+        em = EmailMessage()
+        em['From']= sender
+        em['To'] = reciever
+        em['Subject']= subject
+        em.set_content(body)
+        con = ssl.create_default_context()
+        with smtplib.SMTP_SSL('smtp.gmail.com',465,context=con) as smtp:
+            smtp.login(sender,ps)
+            smtp.sendmail(sender,reciever,em.as_string())
+else:
+    print("no noti found")
 
