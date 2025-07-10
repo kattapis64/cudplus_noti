@@ -53,6 +53,7 @@ driver.find_element(By.ID,"username").send_keys(username)
 driver.find_element(By.ID,"password").send_keys(pwd)
 driver.find_element(By.ID,"cv-login-cvecologinbutton").click()
 print("login succesfully")
+sleep(1)
 
 driver.get("https://www.mycourseville.com/api/oauth/authorize?response_type=code&client_id=smartschool_cudplus&redirect_uri=https://cudplus.onsmart.school/callback&scope=public,launching,email")
 
@@ -113,7 +114,7 @@ def split_list(lst, delimiter):
     result.append(current)  # Add the last segment
     return result
 
-a=[]
+rawNoti=[]
 g=[]
 with open('log.txt') as f:
     
@@ -121,52 +122,63 @@ with open('log.txt') as f:
         g.append(x)
     g=g[-2:]
     for r in g:
-        a.append(r.split(",")[0:-1])
+        rawNoti.append(r.split(",")[0:-1])
 
-for k in range(len(a[0])):
-    if "วันที่แล้ว" in a[0][k]:
-        a[0][k]=a[0][k][0:-13]
-    elif "ชั่วโมงที่แล้ว" in a[0][k]:
-        a[0][k]=a[0][k][0:-17]
-    elif "เดือนที่แล้ว" in a[0][k]:
-        a[0][k]=a[0][k][0:-15]
-    elif "สัปดาห์ที่แล้ว" in a[0][k]:
-        a[0][k]=a[0][k][0:-17]
-
-    
-for s in range(len(a[1])):
-    if "วันที่แล้ว" in a[1][s]:
-        a[1][s]=a[1][s][0:-13]
-    elif "ชั่วโมงที่แล้ว" in a[1][s]:
-        a[1][s]=a[1][s][0:-17]
-    elif "เดือนที่แล้ว" in a[1][s]:
-        a[1][s]=a[1][s][0:-15]
-    elif "สัปดาห์ที่แล้ว" in a[1][s]:
-        a[1][s]=a[1][s][0:-17]
+for k in range(len(rawNoti[0])):
+    if "วันที่แล้ว" in rawNoti[0][k]:
+        rawNoti[0][k]= rawNoti[0][k][0:-13]
+    elif "ชั่วโมงที่แล้ว" in rawNoti[0][k]:
+        rawNoti[0][k]= rawNoti[0][k][0:-17]
+    elif "เดือนที่แล้ว" in rawNoti[0][k]:
+        rawNoti[0][k]= rawNoti[0][k][0:-15]
+    elif "สัปดาห์ที่แล้ว" in rawNoti[0][k]:
+        rawNoti[0][k]= rawNoti[0][k][0:-17]
 
     
-print(a[1])
+for s in range(len(rawNoti[1])):
+    if "วันที่แล้ว" in rawNoti[1][s]:
+        rawNoti[1][s]= rawNoti[1][s][0:-13]
+    elif "ชั่วโมงที่แล้ว" in rawNoti[1][s]:
+        rawNoti[1][s]= rawNoti[1][s][0:-17]
+    elif "เดือนที่แล้ว" in rawNoti[1][s]:
+        rawNoti[1][s]= rawNoti[1][s][0:-15]
+    elif "สัปดาห์ที่แล้ว" in rawNoti[1][s]:
+        rawNoti[1][s]= rawNoti[1][s][0:-17]
+
+print(len(rawNoti[0]))
+print("*******************************************")
+print(rawNoti[0])
+print("*******************************************")
+print(rawNoti[1])
+h=0
 dummy=0
-for i in a[0]:
-    for j in a[1]:
+for i in rawNoti[0]:
+    for j in rawNoti[1]:
         print(i)
         print(j)
         print("")
 
         if i==j:
+
             print("yay")
-            first = a[0].index(i)
-            later = a[1].index(i)
+            print(rawNoti[0])
+            first = rawNoti[0].index(i)
+            
+            later = rawNoti[1].index(i)
+            print(later)
             dummy=1
             break
+        else:
+            h+=1
+
     if dummy==1:
         break
-print(first,later)
-print(a[1][0:later])
+
+
 if first ==0 and later ==0:
     eme=[]
 else:
-    eme=a[1][0:later-1]
+    eme= rawNoti[1][0:later - 1]
 print(eme)
 ps = os.getenv('pc')
 sender=os.getenv('sender')
