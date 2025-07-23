@@ -97,7 +97,7 @@ for q in notlist:
 print(prime)
 with open("log.txt","a") as file:
     file.write(" , ".join(prime) + "\n")
-driver.quit()
+
 #Reader
 
 
@@ -133,6 +133,10 @@ for k in range(len(rawNoti[0])):
         rawNoti[0][k]= rawNoti[0][k][0:-15]
     elif "สัปดาห์ที่แล้ว" in rawNoti[0][k]:
         rawNoti[0][k]= rawNoti[0][k][0:-17]
+    elif "ไม่กี่วินาทีที่แล้ว" in rawNoti[0][k]:
+        rawNoti[0][k]= rawNoti[0][k][0:-19]
+    elif "นาทีที่แล้ว" in rawNoti[0][k]:
+        rawNoti[0][k]= rawNoti[0][k][0:-13]
 
     
 for s in range(len(rawNoti[1])):
@@ -144,6 +148,10 @@ for s in range(len(rawNoti[1])):
         rawNoti[1][s]= rawNoti[1][s][0:-15]
     elif "สัปดาห์ที่แล้ว" in rawNoti[1][s]:
         rawNoti[1][s]= rawNoti[1][s][0:-17]
+    elif "ไม่กี่วินาทีที่แล้ว" in rawNoti[0][s]:
+        rawNoti[0][s]= rawNoti[0][s][0:-19]
+    elif "นาทีที่แล้ว" in rawNoti[0][s]:
+        rawNoti[0][s]= rawNoti[0][s][0:-13]
 
 print(len(rawNoti[0]))
 print("*******************************************")
@@ -185,9 +193,13 @@ sender=os.getenv('sender')
 if eme!=[]:
     print("notifications founded")
     for i in eme:
+        driver.get(str(hrefs[19:][eme.index(i)]))
+        sleep(2)
+        v = driver.find_element(By.CSS_SELECTOR, ".ss-component-section-body").text
+
         reciever = "kittiphasa29@gmail.com"
         subject = i
-        body= hrefs[19:][eme.index(i)]
+        body= v
         em = EmailMessage()
         em['From']= sender
         em['To'] = reciever
@@ -199,4 +211,5 @@ if eme!=[]:
             smtp.sendmail(sender,reciever,em.as_string())
 else:
     print("no noti found")
+driver.quit()
 
