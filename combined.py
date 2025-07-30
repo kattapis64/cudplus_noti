@@ -193,22 +193,25 @@ sender=os.getenv('sender')
 if eme!=[]:
     print("notifications founded")
     for i in eme:
-        driver.get(str(hrefs[19:][eme.index(i)]))
-        sleep(2)
-        v = driver.find_element(By.CSS_SELECTOR, ".ss-component-section-body").text
+        try :
+            driver.get(str(hrefs[19:][eme.index(i)]))
+            sleep(2)
+            v = driver.find_element(By.CSS_SELECTOR, ".ss-component-section-body").text
 
-        reciever = "kittiphasa29@gmail.com"
-        subject = i
-        body= v
-        em = EmailMessage()
-        em['From']= sender
-        em['To'] = reciever
-        em['Subject']= subject
-        em.set_content(body)
-        con = ssl.create_default_context()
-        with smtplib.SMTP_SSL('smtp.gmail.com',465,context=con) as smtp:
-            smtp.login(sender,ps)
-            smtp.sendmail(sender,reciever,em.as_string())
+            reciever = "kittiphasa29@gmail.com"
+            subject = i
+            body= v
+            em = EmailMessage()
+            em['From']= sender
+            em['To'] = reciever
+            em['Subject']= subject
+            em.set_content(body)
+            con = ssl.create_default_context()
+            with smtplib.SMTP_SSL('smtp.gmail.com',465,context=con) as smtp:
+               smtp.login(sender,ps)
+               smtp.sendmail(sender,reciever,em.as_string())
+        except:
+            print("Something happened")
 else:
     print("no noti found")
 driver.quit()
